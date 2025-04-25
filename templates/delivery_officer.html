@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Officer Panel</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid gold;
+            padding: 10px;
+            text-align: center;
+        }
+        select, button {
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .view-btn {
+            background: #3498db;
+            color: white;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .view-btn:hover {
+            background: #217dbb;
+        }
+        .update-btn {
+            background: gold;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Dynamic Row Background Colors */
+        .status-pending {
+            background-color: rgba(255, 0, 0, 0.3);
+            color: red;
+            font-weight: bold;
+        }
+        .status-out-for-delivery {
+            background-color: rgba(255, 165, 0, 0.3);
+            color: orange;
+            font-weight: bold;
+        }
+        .status-delivered {
+            background-color: rgba(0, 128, 0, 0.3);
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function updateStatus(orderId) {
+            const status = document.getElementById(`status-${orderId}`).value;
+
+            fetch("/update_order_status", {
+                method: "POST",
+                body: new URLSearchParams({ order_id: orderId, status: status }),
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+<link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+ 
+ <header>
+     <h2>Welcome, Officer</h2>
+     <a href="{{ url_for('logout1') }}">Logout</a>
+ </header>
+ <br>
+  <h2>Delivery Officer Panel</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Update</th>
+            <th>VIEW</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[1] }}</td>
+            <td>{{ order[2] }}</td>
+            <td>{{ order[3] }}</td>
+            <td>{{ order[4] }}</td>
+            <td>{{ order[5] }}</td>
+            <td class="status-{{ order[6]|lower|replace(' ', '-') }}">
+                <select class="status-{{ order[6]|lower|replace(' ', '-') }}" id="status-{{ order[0] }}">
+                    <option value="Pending" {% if order[6] == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Out for Delivery" {% if order[6] == "Out for Delivery" %}selected{% endif %}>Out for Delivery</option>
+                    <option value="Delivered" {% if order[6] == "Delivered" %}selected{% endif %}>Delivered</option>
+                </select>
+            </td>
+            <td><button class="update-btn" onclick="updateStatus('{{ order[0] }}')">Update</button></td>
+            <td><a href="{{ url_for('order_details', order_id=order[0]) }}" class="view-btn">View Order</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

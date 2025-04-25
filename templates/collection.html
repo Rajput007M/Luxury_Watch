@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Watch Collection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylec.css') }}">
+    
+</head>
+<body>
+    <header  >
+       
+        <div class="logo">RT Watch Collection</div>
+      
+        <nav>
+            <a href="/">Home</a>
+            <a href="product1">Shop</a>
+            <a href="collection">Luxury Collections</a>
+            <a href="contact">Contact</a>
+            <a href="about">About</a>
+            
+        </nav>
+        {% if user %}
+        <a href="/my_orders">
+            <button class="my-orders-btn">📦 My Orders</button>
+        </a> 
+        <a href="/cart">
+            <button class="my-orders-btn">🛒 My Cart</button>
+        </a> 
+            <button class="login-btn" id="profileBtn" onclick="toggleProfile()">Profile</button>
+        {% else %}
+            <button class="login-btn" id="loginBtn" onclick="mayur()">Login</button>
+        {% endif %}
+    </header>
+
+   
+            <div class="co">
+        
+             <button class="cancle2" onclick="cancle()" >X <i class="fa-solid fa-xmark fa-rotate-90" ></i></button>
+             {% if user %}
+                <div class="profileall">
+                    <img class="iimg" src="/static/profile/a1.png">
+                    <h2 class="proname" style="--D:0; --S:20">
+                        
+                    WELCOME BACK!
+                    
+                </h2>
+                </div>  
+                
+            
+                
+                   <div class="prodata"> 
+                    <div class="profile1">
+                    <p class="profile">USER PROFILE</p></div>
+                    
+                    
+                    <h2 class="aanimation" style="--D:0; --S:20">
+                    <form method="post">
+                        <label class="label" id="label">Full Name:{{ user[0] }} {{ user[2] }}!</label>
+                        
+                        <label class="label" >Age:</label>
+                        
+                        <label class="label">Number:{{ user[3] }}</label>
+                        
+                        <label class="label">Email:{{ user[4] }}<h6 class="client">
+ 
+            </h6>         
+        </label>
+                         
+        
+                        
+                        <label class="label">Address:</label>
+                        
+                        <a href="/logout" class="logout">logout <i class="fa fa-sign-out" style="font-size:20px;color:red"></i></a>
+        
+        
+                        
+                
+                    
+        </form></h2>
+                    
+                
+                  
+               </div>
+        
+               {% else %}
+               
+               <div class="curved-shape"></div>
+        
+        <div class="curved-shape2"></div>
+       
+        <div class="form-box Login"> <a class="Cancle" onclick="cancle()" >X</a>
+         
+                <h2 class="animation" style="--D:0 ;--S:21" >Login</h2>
+            <form action="/login"method="post" > 
+            <div class="input-box animation "style="--D:1 ;--S:22">
+                <input type="text" required name="userr">
+                <label for="">Email</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--D:2; --S:23">
+                <input type="text" required name="pass">
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box animation" style="--D:3 ;--S:24">
+                <button class="btn" type="submit" name="submitt">Login</button>
+            </div>
+            <div class="regi-link animation" style="--D:4 ;--S:25">
+                <p>don't have an account ? <a onclick="mayur1()"class="SignUplink">Sign Up</a></p>
+                
+        
+            </div>
+            
+            </form>
+        </div>
+        <div class="info-content Login">
+            <h2 class="animation" style="--D:0; --S:20">
+                WELCOME BACK!
+            </h2>
+            <p class="animation" style="--D:1; --S:21">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione officia natus magnam itaque placeat ex</p>
+        </div>
+        <div class="form-box Register">
+            <h2 class="animation" style="--li:17;--S:0;">Register</h2>
+            <form action="/register"  method="post">
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="text" required name="fname">
+                <label for="">First Name</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="text" required name="lname">
+                <label for="">Last Name</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="number" required name="number" size="10">
+                <label for="">Number</label>
+                <i class='bx bxs-user'></i>
+            </div>  
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="email" required name="email" size="10">
+                <label for="">Email</label>
+                <i class='bx bxs-user'></i>
+            </div>  
+            
+            <div class="input-box animation" style="--li:19;--S:2;">
+                <input type="password" required name="setpass">
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box animation" style="--li:20;--S:3">
+                <button class="btn" type="submit" name="submit">Register</button>
+            </div>
+            <div class="regi-link animation" style="--li:21;--S:4">
+                <p>don't have an account ? <a href="#" onclick="mayur2()" class="SignInlink">Sign Up</a></p>
+        
+            </div>
+            </form>
+        </div>
+        <div class="info-content Register">
+            <h2 class="animation" style="--li:17; --S:0;">
+                WELCOME BACK!
+            </h2>
+            <p class="animation" style="--li:18;--S:1;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione officia natus magnam itaque placeat ex</p>
+        </div>{% endif %}
+        
+        </div>
+   
+<br><br>
+<br><br><br>
+<br><br><br>
+<br>    <div class="container">
+        <h1>Luxury Watch Brands</h1>
+
+        {% for brand in brands %}
+            <div class="brand-section">
+                <div class="watch-list"> <h2>{{ brand }}</h2>
+                    {% if brand in watches %}  <a href="{{ url_for('brand', category=brand) }}">
+                        <div class="slider-container">
+                            <div class="slider" data-id="{{ loop.index }}"> <!-- Unique identifier for each slider -->
+                                {% for watch in watches[brand] %}
+                                    <div class="slide"><img src="{{ url_for('static', filename='images/' + watch.image) }}" alt="Luxury Watch"></div>
+                                {% endfor %}
+                            </div></a>
+
+                            <button class="nav-button prev" onclick="moveSlide({{ loop.index }}, -1)">❮</button>
+                            <button class="nav-button next" onclick="moveSlide({{ loop.index }}, 1)">❯</button>
+                        </div>
+                    {% else %}
+                        <p>No watches available for this brand.</p>
+                    {% endif %}
+                </div>
+            </div><br><br><br><br>
+        {% endfor %}
+
+       
+    </div>
+
+    <footer style="background: #111; color: #FFD700; text-align: center; padding: 20px; margin-top: 20px; position: relative; bottom: 0; width: 100%;">
+        <p>&copy; 2025 Luxury Watches. All Rights Reserved.</p>
+        <p>
+            <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
+            <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Terms of Service</a> |
+            <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Contact Us</a>
+        </p>
+    </footer>
+  
+    <script>
+        let sliderIndexes = {}; // Store indexes for each slider
+
+        function moveSlide(sliderId, step) {
+            const slider = document.querySelector(`.slider[data-id='${sliderId}']`);
+            if (!slider) return;
+
+            if (!(sliderId in sliderIndexes)) {
+                sliderIndexes[sliderId] = 0;
+            }
+
+            const slides = slider.children.length;
+            sliderIndexes[sliderId] += step;
+
+            if (sliderIndexes[sliderId] >= slides) {
+                sliderIndexes[sliderId] = 0;
+            }
+            if (sliderIndexes[sliderId] < 0) {
+                sliderIndexes[sliderId] = slides - 1;
+            }
+
+            slider.style.transform = `translateX(-${sliderIndexes[sliderId] * 100}%)`;
+        }
+
+        // Auto-slide every 3 seconds for each slider
+        document.querySelectorAll('.slider').forEach((slider, index) => {
+            setInterval(() => moveSlide(index + 1, 1), 3000);
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

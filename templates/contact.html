@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - RT Watch Collection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='contect.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header  >
+       
+        <div class="logo">RT Watch Collection</div>
+      
+        <nav>
+            <a href="/">Home</a>
+            <a href="product1">Shop</a>
+            <a href="collection">Luxury Collections</a>
+            <a href="contact">Contact</a>
+            <a href="about">About</a>
+            
+        </nav>
+        {% if user %}
+        <a href="/my_orders">
+            <button class="my-orders-btn">📦 My Orders</button>
+        </a> 
+        <a href="/cart">
+            <button class="my-orders-btn">🛒 My Cart</button>
+        </a> 
+            <button class="login-btn" id="profileBtn" onclick="toggleProfile()">Profile</button>
+        {% else %}
+            <button class="login-btn" id="loginBtn" onclick="mayur()">Login</button>
+        {% endif %}
+   </header>
+    <br>
+    <br>
+    <br>
+    <section class="contact-container">
+        <div class="contact-form">
+            <h2>Get in Touch</h2>
+            <form method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        
+        <div class="contact-info">
+            <h2>Our Office</h2>
+            <p><strong>Address:</strong> 123 Luxury Street, Mumbai, India</p>
+            <p><strong>Email:</strong> support@rajputtrendz.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+
+            <h2>Find Us Here</h2>
+            <iframe src="https://www.google.com/maps/embed?..." width="100%" height="200"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 RajputTrendz. All Rights Reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

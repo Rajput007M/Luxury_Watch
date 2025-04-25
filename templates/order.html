@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>My Orders</h1>
+    </header>
+
+    <section>
+        {% if orders %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Name</th>
+                        <th>Details</th>
+                        <th>Quantity</th>
+                        <th>User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order, user in orders %}
+                        <tr>
+                            <td><img src="{{ url_for('static', filename='uploads/' + order.product_image) }}" width="100"></td>
+                            <td>{{ order.product_name }}</td>
+                            <td>{{ order.product_details }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ user.name }} ({{ user.email }})</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No orders placed yet.</p>
+        {% endif %}
+    </section>
+    mayur
+</body>
+</html>

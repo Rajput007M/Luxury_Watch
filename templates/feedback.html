@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+    
+    <header>
+        <h2>Welcome, Admin</h2>
+        <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </header>
+    <br>
+    <header>
+<a href="/add_product">add product to your shop</a>
+<a href="/products  ">view your product</a>
+
+<a href="">user content Messages</a>
+<a href="">users details</a>
+
+</header>
+ 
+</header>
+    <h3>Contact Messages</h3>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Date</th>
+        </tr>
+        {% for msg in messages %}
+        <tr>
+            <td>{{ msg[0] }}</td>
+            <td>{{ msg[1] }}</td>
+            <td>{{ msg[2] }}</td>
+            <td>{{ msg[3] }}</td>
+            <td>{{ msg[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

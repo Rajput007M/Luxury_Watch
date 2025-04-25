@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: gold;
+            text-align: center;
+            padding: 20px;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: black;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.5);
+        }
+        th, td {
+            border: 1px solid gold;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: gold;
+            color: black;
+            font-size: 16px;
+        }
+        .progress-bar {
+            width: 80%;
+            height: 15px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px auto;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.3);
+        }
+        .progress-fill {
+            height: 100%;
+            text-align: center;
+            color: black;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 15px;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        .pending { background: red; width: 30%; }
+        .out-for-delivery { background: orange; width: 65%; }
+        .delivered { background: green; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <h2>My Orders</h2>
+    {% if orders %}
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Progress</th>
+            
+            <th>VIEW</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order[0] }}</td>
+            <td>{{ order[2] }}</td>
+            <td>{{ order[3] }}</td>
+            <td>{{ order[4] }}</td>
+            <td>{{ order[5] }}</td>
+            <td>
+                <div class="progress-bar">
+                    <div class="progress-fill {% if order[5] == 'Pending' %}pending{% elif order[5] == 'Out for Delivery' %}out-for-delivery{% elif order[5] == 'Delivered' %}delivered{% endif %}">
+                        {% if order[5] == "Pending" %}30%
+                        {% elif order[5] == "Out for Delivery" %}65%
+                        {% elif order[5] == "Delivered" %}100%
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a href="/track_order?order_id={{ order[0] }}">Track Order</a>
+                </td>
+                
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+        <p> No Any Orders  </p>
+    {% endif %}
+
+</body>
+</html>

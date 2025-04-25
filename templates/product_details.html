@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} -RT Watch Collection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <br><br><br><br><br>
+
+<header>
+    <div class="logo">RT Watch Collection</div>
+    <nav>
+        <nav>
+            <a href="/">Home</a>
+            <a href="product1">Shop</a>
+            <a href="collection">Luxury Collections</a>
+            <a href="contact">Contact</a>
+        </nav>
+   
+    </nav>
+</header>
+
+<section class="product-container">
+    <div class="product-detail">
+        <div class="product-gallery">
+            <img src="{{ url_for('static', filename='uploads/' + product.image1) }}" class="main-image" id="mainImg">
+            <div class="thumbnaail-container">
+                <img class="ps-image" src="{{ url_for('static', filename='uploads/' + product.image1) }}" class="thumbnail" onclick="changeImage(this)">
+                <img class="ps-image" src="{{ url_for('static', filename='uploads/' + product.image2) }}" class="thumbnail" onclick="changeImage(this)">
+                <img class="ps-image" src="{{ url_for('static', filename='uploads/' + product.image3) }}" class="thumbnail" onclick="changeImage(this)">
+                <img class="ps-image"src="{{ url_for('static', filename='uploads/' + product.image4) }}" class="thumbnail" onclick="changeImage(this)">
+            </div>
+        </div>
+
+        <div class="product-info">
+            
+           
+            <h1>{{ product.name }}<h1>
+            <p><strong>Description:<br></strong>{{ product.description }}</p>
+            <p><strong class="=info14">Category:</strong> {{ product.category }}</p>
+            <p><strong class="=info14">Price:</strong> ₹<span id="productPrice">{{ product.price }}</span></p>
+            <p><strong class="=info14">Stock:</strong> {{ product.stock }}</p>
+            <div class="quantity-selector">
+               <strong> Quantity:</strong>
+                <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                <input type="number" id="quantity" value="1" min="1" max="{{ product.stock }}" readonly>
+                <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Form (Hidden by Default) -->
+    <div class="payment-form show" id="paymentForm">
+        <h2>Payment Details</h2>
+        <form action="/order" method="POST">       <input type="hidden" name="product_name" value="{{ product.name }}">
+        <input type="hidden" name="product_image" value="{{ product.image1 }}">
+        <input type="hidden" name="product_details" value="{{ product.description }}">
+        <input type="hidden" name="quantity" id="formQuantity" value="1">
+        <input type="hidden" name="total_price" id="formTotalPrice" value="{{ product.price }}">
+        
+        <input type="text" name="full_name" placeholder="Full Name" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        
+        <select name="payment_method">
+            <option value="credit_card">Credit Card</option>
+            <option value="debit_card">Debit Card</option>
+            <option value="upi">UPI</option>
+            <option value="cash">Cash on Delivery</option>
+        </select>
+        <div style="display: flex; justify-content: center;"><div><h3>Total Amount-:</h3></div>
+       <h3> <div id="totalAmount">{{ product.price }}</div></h3></div>
+        <button type="submit" class="confirm-payment">Confirm Payment</button></form>
+    </div>
+    
+</section>
+
+<script>
+    function changeImage(element) {
+        document.getElementById("mainImg").src = element.src;
+    }
+
+    function changeQuantity(amount) {
+        let quantity = document.getElementById("quantity");
+        let price = parseFloat(document.getElementById("productPrice").innerText);
+        let totalAmount = document.getElementById("totalAmount");
+
+        let newQuantity = parseInt(quantity.value) + amount;
+        if (newQuantity >= 1 && newQuantity <= {{ product.stock }}) {
+            quantity.value = newQuantity;
+            totalAmount.innerText = (price * newQuantity).toFixed(2);
+              }
+    }
+</script>
+
+</body>
+</html>

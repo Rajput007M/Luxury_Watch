@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .order-container {
+            background: #222;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+            display: inline-block;
+            text-align: left;
+        }
+        .order-item {
+            margin-bottom: 10px;
+          
+            padding: 100px;
+            display: flex;
+        }
+        .highlight {
+            color: gold;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        img{
+            height: 200px;
+            width: 200px;
+            margin-left: 20px;
+        }
+        .od{
+            display: inline;
+        }
+        .back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <h2>Order Details</h2>
+    <div class="order-container">
+        <p><span class="highlight">Order ID:</span> {{ order['order_id'] }}</p>
+        <p><span class="highlight">Name:</span> {{ order['name'] }}</p>
+        <p><span class="highlight">Address:</span> {{ order['address'] }}</p>
+        <p><span class="highlight">Phone:</span> {{ order['phone'] }}</p>
+        <p><span class="highlight">Email:</span> {{ order['email'] }}</p>
+        <p><span class="highlight">Payment Method:</span> {{ order['payment_method'] }}</p>
+        
+        <h3>Ordered Items</h3>
+        
+        <div class="order-item">
+            {% for item in order_items %}
+       
+           <div class="od"> <p><span class="highlight">Product:</span> {{ item['product_name'] }}</p>
+            <p><span class="highlight">Price:</span> ${{ item['price'] }}</p>
+            <p><span class="highlight">Quantity:</span> {{ item['quantity'] }}</p>
+            <p><span class="highlight">Total Price:</span> ${{ item['total_price'] }}</p>
+
+            <img src="{{ url_for('static', filename='uploads/' + item['image1']) }}" alt="Product Image">
+            </div>
+            
+        {% endfor %}
+        </div>
+        <a href="/" class="back-button">Back</a>
+
+</body>
+</html>

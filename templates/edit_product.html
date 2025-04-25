@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Update Product</h1>
+        <a href="{{ url_for('products') }}">Back to Products</a>
+    </header>
+
+    <!-- Flash Message Popup -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="popup" class="popup">
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="update-container">
+        <form class="manu12" action="{{ url_for('update_product', product_id=product[0]) }}" method="POST" enctype="multipart/form-data">
+            <label for="name">Product Name:</label>
+            <input type="text" name="name" value="{{ product[1] }}" required>
+
+            <label for="price">Price:</label>
+            <input type="number" name="price" step="0.01" value="{{ product[2] }}" required>
+
+            <label for="stock">Stock:</label>
+            <input type="number" name="stock" value="{{ product[3] }}" required>
+
+            <label for="category">Category:</label>
+            <select name="category" required>
+                {% for brand in brands %}
+                    <option value="{{ brand }}">{{ brand }}</option>
+                {% endfor %}
+            </select>
+            <label for="description">Description:</label>
+            <textarea name="description" required>{{ product[5] }}</textarea>
+
+            {% for i in range(6, 10) %}
+                <label>Current Image {{ i-5 }}:</label>
+                {% if product[i] %}
+                    <img src="{{ url_for('static', filename='uploads/' + product[i]) }}" alt="Current Image" width="100">
+                {% else %}
+                    <p>No image available</p>
+                <div class="fm">{% endif %}
+                <input class="file" type="file" name="image{{ i-5 }}">
+            {% endfor %}
+</div>
+            <button type="submit">Update Product</button>
+        </form>
+    </main>
+
+    <!-- JavaScript for Flash Popup -->
+    <script>
+        window.onload = function() {
+            var popup = document.getElementById("popup");
+            if (popup) {
+                setTimeout(function() {
+                    popup.style.display = "none";
+                }, 3000);
+            }
+        };
+    </script>
+
+    <!-- CSS for Flash Message -->
+    <style>
+        .popup {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            z-index: 1000;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RT Watch Collection - Luxury Watches</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/animate/animate.min.css') }}">
+
+    <script>
+        // Show popup message if flash message exists
+        window.onload = function() {
+            var message = "{{ get_flashed_messages(category_filter=['error'])[0] if get_flashed_messages(category_filter=['error']) else '' }}";
+            if (message) {
+                alert(message);
+            }
+        };
+    </script>
+    <!-- Include SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Add Button -->
+
+</head>
+<body class="fade-in">
+
+    <header  >
+       
+        <div class="logo">RT Watch Collection</div>
+      
+        <nav>
+            <a href="/">Home</a>
+            <a href="product1">Shop</a>
+            <a href="collection">Luxury Collections</a>
+            <a href="contact">Contact</a>
+            <a href="about">About</a>
+            
+        </nav>
+        {% if user %}
+        <a href="/my_orders">
+            <button class="my-orders-btn">📦 My Orders</button>
+        </a> 
+        <a href="/cart">
+            <button class="my-orders-btn">🛒 My Cart</button>
+        </a> 
+            <button class="login-btn" id="profileBtn" onclick="toggleProfile()">Profile</button>
+        {% else %}
+            <button class="login-btn" id="loginBtn" onclick="mayur()">Login</button>
+        {% endif %}
+    </header>
+
+            <div class="co">
+        
+             <button class="cancle2" onclick="cancle()" >X <i class="fa-solid fa-xmark fa-rotate-90" ></i></button>
+             {% if user %}
+                <div class="profileall">
+                    <img class="iimg" src="/static/profile/a1.png">
+                    <h2 class="proname" style="--D:0; --S:20">
+                        
+                    WELCOME BACK!
+                    
+                </h2>
+                </div>  
+                
+            
+                
+                   <div class="prodata"> 
+                    <div class="profile1">
+                    <p class="profile">USER PROFILE</p></div>
+                    
+                    
+                    <h2 class="aanimation" style="--D:0; --S:20">
+                    <form method="post">
+                        <label class="label" id="label">Full Name:{{ user[1] }} {{ user[2] }}!</label>
+                        
+                        <label class="label" >Age:</label>
+                        
+                        <label class="label">Number:{{ user[3] }}</label>
+                        
+                        <label class="label">Email:{{ user[4] }}<h6 class="client">
+ 
+            </h6>         
+        </label>
+                         
+        
+                        
+                        <label class="label">Address:</label>
+    
+                        <a href="/logout" class="logout">logout <i class="fa fa-sign-out" style="font-size:20px;color:red"></i></a>
+        
+        
+                        
+                
+                    
+        </form></h2>
+                    
+                
+                  
+               </div>
+        
+               {% else %}
+               
+               <div class="curved-shape"></div>
+        
+        <div class="curved-shape2"></div>
+       
+        <div class="form-box Login"> <a class="Cancle" onclick="cancle()" >X</a>
+         
+                <h2 class="animation" style="--D:0 ;--S:21" >Login</h2>
+            <form action="/login"method="post" > 
+            <div class="input-box animation "style="--D:1 ;--S:22">
+                <input type="text" required name="userr">
+                <label for="">Email</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--D:2; --S:23">
+                <input type="text" required name="pass">
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box animation" style="--D:3 ;--S:24">
+                <button class="btn" type="submit" name="submitt">Login</button>
+            </div>
+            <div class="regi-link animation" style="--D:4 ;--S:25">
+                <p>don't have an account ? <a onclick="mayur1()"class="SignUplink">Sign Up</a></p>
+                
+        
+            </div>
+            
+            </form>
+        </div>
+        <div class="info-content Login">
+            <h2 class="animation" style="--D:0; --S:20">
+                WELCOME BACK!
+            </h2>
+            <p class="animation" style="--D:1; --S:21">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione officia natus magnam itaque placeat ex</p>
+        </div>
+        <div class="form-box Register">
+            <h2 class="animation" style="--li:17;--S:0;">Register</h2>
+            <form action="/register"  method="post">
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="text" required name="fname">
+                <label for="">First Name</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="text" required name="lname">
+                <label for="">Last Name</label>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="number" required name="number" size="10">
+                <label for="">Number</label>
+                <i class='bx bxs-user'></i>
+            </div>  
+            <div class="input-box animation" style="--li:18;--S:1;">
+                <input type="email" required name="email" size="10">
+                <label for="">Email</label>
+                <i class='bx bxs-user'></i>
+            </div>  
+            
+            <div class="input-box animation" style="--li:19;--S:2;">
+                <input type="password" required name="setpass">
+                <label for="">Password</label>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box animation" style="--li:20;--S:3">
+                <button class="btn" type="submit" name="submit">Register</button>
+            </div>
+            <div class="regi-link animation" style="--li:21;--S:4">
+                <p>don't have an account ? <a href="#" onclick="mayur2()" class="SignInlink">Sign Up</a></p>
+        
+            </div>
+            </form>
+        </div>
+        <div class="info-content Register">
+            <h2 class="animation" style="--li:17; --S:0;">
+                WELCOME BACK!
+            </h2>
+            <p class="animation" style="--li:18;--S:1;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione officia natus magnam itaque placeat ex</p>
+        </div>{% endif %}
+        
+        </div>
+        <br><br><br>    
+
+    
+        <div class="slider-container  wow fadeInUp">
+            <div class="slider">
+                <div class="slide"><img src="static/images/s1.webp" alt="Luxury Watch 1"></div>
+                <div class="slide"><img src="static/images/s2.webp" alt="Luxury Watch 2"></div>
+                <div class="slide"><img src="static/images/s3.webp" alt="Luxury Watch 3"></div>
+                <div class="slide"><img src="static/images/s4.webp" alt="Luxury Watch 4"></div>
+            
+            </div>
+
+            <button class="nav-button prev" onclick="moveSlide(-1)">❮</button>
+            <button class="nav-button next" onclick="moveSlide(1)">❯</button>
+        </div>
+    
+    
+    <section class="hero">
+        <div class="hero-text">
+            
+            <h1>Timeless Luxury</h1>
+            <p>Discover the finest collection of premium watches.</p>
+            <button class="shop-now">Shop Now</button>
+        </div>
+    </section>
+    <section class="product-section">
+        <h2>Our Exclusive Collection</h2>
+        <div class="product-container  wow fadeInUp">
+            {% for product in products %}
+            <div class="product-card">
+                <img onclick="window.location.href='/product/{{ product.id }}'" src="{{ url_for('static', filename='uploads/' + product.image1) }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3><br>
+                
+                <p><strong>Price:</strong> ₹{{ product.price }}</p>
+               <div style="display:flex; margin-top: 10px;">  
+                <button  class="add-to-cart"  onclick="window.location.href='/add_to_cart/{{ product.id}}'">Add To Cart</button>
+                <button  class="add-to-cart"  onclick="window.location.href='/product/{{ product.id }}'">Buy Now</button>
+</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <div id="product-container">
+  
+    </div>
+    <button id="loadMoreBtn" onclick="loadMoreProducts()">Show More</button>
+    
+    
+        <footer style="background: #111; color: #FFD700; text-align: center; padding: 20px; margin-top: 20px; position: relative; bottom: 0; width: 100%;">
+            <p>&copy; 2025 Luxury Watches. All Rights Reserved.</p>
+            <p>
+                <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Privacy Policy</a> |
+                <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Terms of Service</a> |
+                <a href="#" style="color: #FFD700; text-decoration: none; margin: 0 10px;">Contact Us</a>
+            </p>
+        </footer>
+      
+    
+        <script>
+            let index = 0;
+            function moveSlide(step) {
+                const slides = document.querySelector(".slider");
+                index += step;
+                if (index > 3) index = 0;
+                if (index < 0) index = 3;
+                slides.style.transform = `translateX(-${index * 100}%)`;
+            }
+            setInterval(() => moveSlide(1), 3000); // Auto-slide every 3 sec
+        </script>
+   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
+</body>
+</html>

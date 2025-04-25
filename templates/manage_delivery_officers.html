@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Delivery Officers</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: gold;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+            animation: slideIn 0.8s ease-in-out;
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: black;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.3);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid gold;
+            color: white;
+            text-align: center;
+        }
+        th {
+            background: gold;
+            color: black;
+            font-size: 18px;
+        }
+        tr:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+        .btn-add {
+            background: gold;
+            color: black;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+        }
+        .btn-delete {
+            background: red;
+            color: white;
+            box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        form {
+            margin-top: 20px;
+            padding: 20px;
+            background: #333;
+            border-radius: 10px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            width: 200px;
+            border: none;
+            border-radius: 5px;
+        }
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style><link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+ 
+ <header>
+     <h2>Welcome, Admin</h2>
+     <a href="{{ url_for('admin_logout') }}">Logout</a>
+ </header>
+ <br>
+ <header>
+<a href="/add_product">add product to your shop</a>
+<a href="/products  ">view your product</a>
+
+<a href="/feedback">user content messages</a>
+<a href="/admin/users">users details</a>
+
+</header>   
+    <div class="container">
+        <h2>Manage Delivery Officers</h2>
+        
+        <!-- Add Delivery Officer Form -->
+        <form action="/add_officer" method="POST">
+            <input type="text" name="name" placeholder="Officer Name" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button class="btn btn-add" type="submit">Add Officer</button>
+        </form>
+
+        <!-- Display Existing Officers -->
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            {% for officer in officers %}
+            <tr>
+                <td>{{ officer[0] }}</td>
+                <td>{{ officer[1] }}</td>
+                <td>{{ officer[2] }}</td>
+                <td>{{ officer[3] }}</td>
+                <td>
+                    <button class="btn btn-delete" onclick="deleteOfficer('{{ officer[0] }}')">Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        function deleteOfficer(officerId) {
+            if (confirm("Are you sure you want to remove this officer?")) {
+                window.location.href = "/delete_officer/" + officerId;
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users | Admin Panel</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: gold;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 28px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.5);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid gold;
+            text-align: center;
+        }
+        th {
+            background: rgba(255, 215, 0, 0.3);
+        }
+        tr:nth-child(even) {
+            background: rgba(255, 215, 0, 0.1);
+        }
+        button {
+            background: gold;
+            color: black;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ffdd44;
+        } .container {
+            width: 60%;
+            margin: 50px auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+            animation: slideIn 0.8s ease-in-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: gold;
+            animation: fadeIn 1s ease-in-out;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background: black;
+            color: white;
+            transition: 0.3s;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.3);
+            transform: scale(0.9);
+            animation: inputPop 0.6s ease-in-out forwards;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.6);
+            transform: scale(1.02);
+        }
+        button {
+            padding: 12px;
+            background: gold;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+            animation: buttonBounce 1s ease-in-out infinite alternate;
+        }
+        button:hover {
+            background: #ffdd44;
+            transform: scale(1.05);
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes inputPop {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes buttonBounce {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+            </style>
+            
+ <link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+ 
+ <header>
+     <h2>Welcome, Admin</h2>
+     <a href="{{ url_for('admin_logout') }}">Logout</a>
+ </header>
+ <br>
+ <header>
+<a href="/add_product">add product to your shop</a>
+<a href="/products  ">view your product</a>
+
+<a href="/feedback">user content messages</a>
+<a href="/admin/users">users details</a>
+
+</header> 
+    <h2>Manage Users</h2>
+    <div id="editForm" style="display:none; margin-top: 20px;">
+     
+        <div class="container">
+            <h2>Update User Information</h2>
+            <form id="editUserForm" method="post">
+                <input type="text" name="fname" id="fname" placeholder="First Name" required>
+                <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+                <input type="text" name="number" id="number" placeholder="Phone Number" required>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+                <button type="submit">Update User</button>
+            </form>
+        </div>
+    
+        </div>
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Number</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>{{ user[3] }}</td>
+            <td>{{ user[4] }}</td>
+            <td>
+                <form action="{{ url_for('delete_user', user_id=user[0]) }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+                <button onclick="editUser({{ user[0] }}, '{{ user[1] }}', '{{ user[2] }}', '{{ user[3] }}', '{{ user[4] }}')">Edit</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+  
+    <script>
+        function editUser(id, fname, lname, number, email) {
+            document.getElementById("editForm").style.display = "block";
+            document.getElementById("editUserForm").action = "/admin/edit_user/" + id;
+            document.getElementById("fname").value = fname;
+            document.getElementById("lname").value = lname;
+            document.getElementById("number").value = number;
+            document.getElementById("email").value = email;
+        }
+    </script>
+</body>
+</html>

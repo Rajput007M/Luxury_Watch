@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - Admin Panel</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: gold;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            margin: 50px auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.5);
+            animation: slideIn 0.8s ease-in-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: gold;
+            animation: fadeIn 1s ease-in-out;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: black;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.3);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid gold;
+            color: white;
+            text-align: center;
+        }
+        th {
+            background: gold;
+            color: black;
+            font-size: 18px;
+        }
+        tr:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+        /* Status-based row colors */
+        .status-pending {
+            background-color: rgba(255, 0, 0, 0.3);
+            color: red;
+            font-weight: bold;
+        }
+        .status-out-for-delivery {
+            background-color: rgba(255, 165, 0, 0.3);
+            color: orange;
+            font-weight: bold;
+        }
+        .status-delivered {
+            background-color: rgba(0, 128, 0, 0.3);
+            color: green;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+        .btn-update {
+            background: gold;
+            color: black;
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+        }
+        .btn-delete {
+            background: red;
+            color: white;
+            box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='adminstyle.css') }}">
+</head>
+<body>
+ 
+ <header>
+     <h2>Welcome, Admin</h2>
+     <a href="{{ url_for('admin_logout') }}">Logout</a>
+ </header>
+ <br>
+ <header>
+<a href="/add_product">add product to your shop</a>
+<a href="/products  ">view your product</a>
+
+<a href="/feedback">user content messages</a>
+<a href="/admin/users">users details</a>
+
+</header><div class="container">
+        <h2>Manage Orders</h2>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.email }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.payment_method }}</td>
+                <td  class="status-{{ order.status|lower|replace(' ', '-') }}">
+                    <select  class="status-{{ order.status|lower|replace(' ', '-') }}" id="status-{{ order.order_id }}">
+                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Out for Delivery" {% if order.status == "Out for Delivery" %}selected{% endif %}>Out for Delivery</option>
+                        <option value="Delivered" {% if order.status == "Delivered" %}selected{% endif %}>Delivered</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-update" onclick="updateOrder('{{ order.order_id }}')">Update</button>
+                    <button class="btn btn-delete" onclick="deleteOrder('{{ order.order_id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        function updateOrder(orderId) {
+            const status = document.getElementById(`status-${orderId}`).value;
+            fetch("/update_order_status", {
+                method: "POST",
+                body: new URLSearchParams({ order_id: orderId, status: status }),
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm("Are you sure you want to delete this order?")) {
+                window.location.href = "/delete_order/" + orderId;
+            }
+        }
+    </script>
+
+</body>
+</html>

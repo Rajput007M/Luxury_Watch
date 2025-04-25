@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ brand }} Collection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+   
+</head>
+<body>
+    <br><br><br><br><br><br><br>
+    
+<header>
+    <div class="logo">RT Watch Collection          </div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">Collections</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+<section class="product-section">
+    <h2>Our Exclusive Collection</h2>
+    <h1>{{ brand }} Watches</h1>
+    {% if watches %}
+    <div class="product-container  wow fadeInUp">
+        {% for watch in watches %}        <div class="product-card">
+            <img onclick="window.location.href='/product/{{ watch.id }}'" src="{{ url_for('static', filename='uploads/' + watch['image1']) }}" >
+            <h3>{{ watch['name'] }}</h3><br>
+            
+            <p><strong>Price:</strong> ₹${{ watch['price'] }}</p>
+           <div style="display:flex; margin-top: 10px;">  <button class="add-to-cart" onclick="addToCart({{ watch.id }})">Add to Cart</button>
+            <button  class="add-to-cart"  onclick="window.location.href='/product/{{ watch.id }}'">Buy Now</button>
+</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No products available in this category.</p>
+    {% endif %}
+
+</section>
+
+    
+   
+    <a href="{{ url_for('collection') }}">Back to Collection</a>
+</body>
+</html>
